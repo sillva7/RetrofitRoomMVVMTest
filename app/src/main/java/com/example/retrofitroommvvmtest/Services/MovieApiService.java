@@ -1,6 +1,6 @@
 package com.example.retrofitroommvvmtest.Services;
 
-import com.example.retrofitroommvvmtest.classes.General;
+import com.example.retrofitroommvvmtest.model.General;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

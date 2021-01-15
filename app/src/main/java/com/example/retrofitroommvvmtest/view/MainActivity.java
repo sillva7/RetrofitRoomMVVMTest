@@ -1,6 +1,8 @@
 package com.example.retrofitroommvvmtest.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,31 +10,29 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.retrofitroommvvmtest.MovieAdapter;
 import com.example.retrofitroommvvmtest.R;
-import com.example.retrofitroommvvmtest.Services.MovieApiService;
-import com.example.retrofitroommvvmtest.Services.RetrofitInstance;
-import com.example.retrofitroommvvmtest.classes.General;
-import com.example.retrofitroommvvmtest.classes.Movie;
+import com.example.retrofitroommvvmtest.model.Movie;
+import com.example.retrofitroommvvmtest.viewmodel.MainActivityViewModel;
 
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MovieAdapter adapter;
-    private ArrayList<Movie> movies;
+    private ArrayList<Movie> moviesList;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private MainActivityViewModel mainActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainActivityViewModel = new ViewModelProvider
+                .AndroidViewModelFactory(getApplication())
+                .create(MainActivityViewModel.class);
         getPopularMovies();
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.design_default_color_error));
@@ -46,33 +46,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getPopularMovies() {
-        MovieApiService movieApiService = RetrofitInstance.getService();
-        Call<General> call = movieApiService.getPopularMovies(getString(R.string.api_key));
-        call.enqueue(new Callback<General>() {
-            @Override
-            public void onResponse(Call<General> call, Response<General> response) {
-                General general = response.body();
-                Log.d("454545", "onResponse: " + general.toString());
-                if (general != null && general.getResults() != null) {
-                    movies = (ArrayList<Movie>) general.getResults();
-                    fillRecyclerView();
-
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<General> call, Throwable t) {
-
-            }
-        });
+        mainActivityViewModel.getAllMovies().observe(this,
+                new Observer<List<Movie>>() {
+                    @Override
+                    public void onChanged(List<Movie> resultList) {
+                        moviesList = (ArrayList<Movie>) resultList;
+                        fillRecyclerView();
+                    }
+                });
     }
 
      void fillRecyclerView() {
         recyclerView = findViewById(R.id.recView);
-        adapter = new MovieAdapter(this, movies);
-        adapter.setMovieList(movies);
+        adapter = new MovieAdapter(this, moviesList);
+        adapter.setMovieList(moviesList);
         recyclerView.setAdapter(adapter);
 
 
@@ -84,5 +71,7 @@ public class MainActivity extends AppCompatActivity {
         }
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter.notifyDataSetChanged();
-    }
+         swipeRefreshLayout.setRefreshing(false);
+
+     }
 }

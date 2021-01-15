@@ -4,13 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.retrofitroommvvmtest.R;
-import com.example.retrofitroommvvmtest.classes.Movie;
+import com.example.retrofitroommvvmtest.model.Movie;
 
 public class MovieDeatailActivity extends AppCompatActivity {
 

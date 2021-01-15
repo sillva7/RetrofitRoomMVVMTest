@@ -12,11 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.retrofitroommvvmtest.classes.Movie;
+import com.example.retrofitroommvvmtest.model.Movie;
 import com.example.retrofitroommvvmtest.view.MovieDeatailActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 

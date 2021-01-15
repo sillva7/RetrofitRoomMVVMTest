@@ -1,9 +1,9 @@
-package com.example.retrofitroommvvmtest.classes;
+package com.example.retrofitroommvvmtest.model;
 
 import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -41,7 +41,7 @@ public class General implements Parcelable
 
     protected General(Parcel in) {
         this.page = ((int) in.readValue((int.class.getClassLoader())));
-        in.readList(this.results, (com.example.retrofitroommvvmtest.classes.Movie.class.getClassLoader()));
+        in.readList(this.results, (com.example.retrofitroommvvmtest.model.Movie.class.getClassLoader()));
         this.totalPages = ((int) in.readValue((int.class.getClassLoader())));
         this.totalResults = ((int) in.readValue((int.class.getClassLoader())));
     }

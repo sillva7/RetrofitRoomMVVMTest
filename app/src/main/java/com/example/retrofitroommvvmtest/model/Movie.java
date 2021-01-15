@@ -1,10 +1,10 @@
-package com.example.retrofitroommvvmtest.classes;
+package com.example.retrofitroommvvmtest.model;
 
 import java.util.ArrayList;
 import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
